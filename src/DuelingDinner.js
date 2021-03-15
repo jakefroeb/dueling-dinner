@@ -3,6 +3,7 @@ import { Route, Redirect } from "react-router-dom"
 import { Login } from "./components/auth/Login"
 import { Register } from "./components/auth/Register"
 import { userStorageKey } from "./components/auth/authSettings"
+import { Home } from './components/Home';
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         if (sessionStorage.getItem(userStorageKey)) {
           return (
             <>
-              //Components that are rendered when the user is authenticated go inside this React fragment
+              <Home/>
             </>
           )
         } else {
