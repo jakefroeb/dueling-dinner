@@ -5,7 +5,7 @@ import "./Login.css"
 
 export const Register = () => {
 
-    const [registerUser, setRegisterUser] = useState({ firstName: "", lastName: "", email: "" })
+    const [registerUser, setRegisterUser] = useState({ firstName: "", lastName: "", email: "", admin: false})
     const [conflictDialog, setConflictDialog] = useState(false)
 
     const history = useHistory()
@@ -21,6 +21,16 @@ export const Register = () => {
         return fetch(`${authApi.localApiBaseUrl}/${authApi.endpoint}?email=${registerUser.email}`)
             .then(res => res.json())
             .then(user => !!user.length)
+    }
+    const handleSelectChange = (e) => {
+        e.preventDefault()
+        if(e.target.value === "admin"){
+            let tempUser = {...registerUser}
+            tempUser.admin = true
+            setRegisterUser(tempUser)
+            console.log(registerUser)
+
+        }
     }
 
     const handleRegister = (e) => {
@@ -71,6 +81,13 @@ export const Register = () => {
                 <fieldset>
                     <label htmlFor="lastName"> Last Name </label>
                     <input type="text" name="lastName" id="lastName" className="form-control" placeholder="Last name" required value={registerUser.lastName} onChange={handleInputChange} />
+                </fieldset>
+                <fieldset>
+                    <select className="adminSelect" onChange={handleSelectChange}>
+                        <option value="0">select admin</option>
+                        <option value="admin">admin</option>
+                        <option value="user">user</option>
+                    </select>
                 </fieldset>
                 <fieldset>
                     <label htmlFor="inputEmail"> Email address </label>
