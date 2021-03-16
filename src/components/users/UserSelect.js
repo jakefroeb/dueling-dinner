@@ -1,26 +1,18 @@
 import { useContext, useEffect, useState } from "react"
 import { UserContext } from "./UserProvider"
 
-export const UserSelect = () => {
+export const UserSelect = ({setDuelStarted}) => {
     const {users, getUsers} = useContext(UserContext)
     const [buttonDisabled, setButtonDisabled] = useState(true)
 
     useEffect(()=>{
         getUsers()
     },[])
-    const success = (pos) => {
-        console.log("lat", pos.coords.latitude)
-        console.log("lon", pos.coords.longitude)
-      }
-    const error = () => {
-        alert("couldnt get coords, please allow this site to access your location")
-    }
+    
+    
     const startDuel = (e) => {
         e.preventDefault()
-         
-        window.navigator.geolocation.getCurrentPosition(success, error)
-        console.log("Start Duel")
-        
+        setDuelStarted(true)
     }
     const handleSelectChange = (event) => {
         if(event.target.value === "0" || event.target.value === sessionStorage.getItem("app_user_id")){

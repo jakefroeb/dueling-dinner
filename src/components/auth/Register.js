@@ -22,16 +22,6 @@ export const Register = () => {
             .then(res => res.json())
             .then(user => !!user.length)
     }
-    const handleSelectChange = (e) => {
-        e.preventDefault()
-        if(e.target.value === "admin"){
-            let tempUser = {...registerUser}
-            tempUser.admin = true
-            setRegisterUser(tempUser)
-            console.log(registerUser)
-
-        }
-    }
 
     const handleRegister = (e) => {
         e.preventDefault()
@@ -73,7 +63,7 @@ export const Register = () => {
             </dialog>
 
             <form className="form--login" onSubmit={handleRegister}>
-                <h1 className="h3 mb-3 font-weight-normal">Please Register for Application Name</h1>
+                <h1 className="h3 mb-3 font-weight-normal">Please Register for Dueling Dinner</h1>
                 <fieldset>
                     <label htmlFor="firstName"> First Name </label>
                     <input type="text" name="firstName" id="firstName" className="form-control" placeholder="First name" required autoFocus value={registerUser.firstName} onChange={handleInputChange} />
@@ -81,13 +71,6 @@ export const Register = () => {
                 <fieldset>
                     <label htmlFor="lastName"> Last Name </label>
                     <input type="text" name="lastName" id="lastName" className="form-control" placeholder="Last name" required value={registerUser.lastName} onChange={handleInputChange} />
-                </fieldset>
-                <fieldset>
-                    <select className="adminSelect" onChange={handleSelectChange}>
-                        <option value="0">select admin</option>
-                        <option value="admin">admin</option>
-                        <option value="user">user</option>
-                    </select>
                 </fieldset>
                 <fieldset>
                     <label htmlFor="inputEmail"> Email address </label>
