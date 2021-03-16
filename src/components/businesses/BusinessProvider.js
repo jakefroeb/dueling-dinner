@@ -5,6 +5,7 @@ export const BusinessContext = createContext()
 
 export const BusinessProvider = (props) => {
     const [businesses, setBusinesses] = useState([])
+    const [showBusiness, setShowBusiness] = useState(false)
 
     const getBusinesses = (lat, lon) => {
         return fetch(`https://powerful-plateau-15272.herokuapp.com/https://api.yelp.com/v3/businesses/search?latitude=${lat}&longitude=${lon}`,{
@@ -12,11 +13,15 @@ export const BusinessProvider = (props) => {
             "Authorization" : yelpKey
           }})
           .then(res => res.json())
-          .then(setBusinesses)
+          .then(res => {
+              setBusinesses(res.businesses)
+              setShowBusiness(true)
+          })
+
       }
     
     return(
-        <BusinessContext.Provider value={{businesses, getBusinesses}}>
+        <BusinessContext.Provider value={{businesses, getBusinesses, showBusiness}}>
             {props.children}
         </BusinessContext.Provider>
     )
