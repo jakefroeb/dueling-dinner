@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { BusinessList } from "./businesses/BusinessList"
 import { BusinessProvider } from "./businesses/BusinessProvider"
+import { DuelProvider } from "./duels/DuelProvider"
 import { UserProvider } from "./users/UserProvider"
 import { UserSelect } from "./users/UserSelect"
 
@@ -13,7 +14,9 @@ export const Home = () => {
         <div className="startDuel">
             <h3>Start a duel</h3>
             <UserProvider>
-                <UserSelect setDuelStarted = {setDuelStarted}/>
+                <DuelProvider>
+                    <UserSelect setDuelStarted = {setDuelStarted}/>
+                </DuelProvider>
             </UserProvider> 
         </div>
             : <></>}
@@ -21,7 +24,9 @@ export const Home = () => {
                 <div className="duelInProgress">
                     <h3>Duel in Progress</h3> 
                     <BusinessProvider>
-                        <BusinessList/>
+                        <DuelProvider>
+                            <BusinessList setDuelStarted={setDuelStarted}/>
+                        </DuelProvider>
                     </BusinessProvider>
                 </div> 
             : <></>}

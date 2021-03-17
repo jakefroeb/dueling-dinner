@@ -21,7 +21,7 @@ export const BusinessProvider = (props) => {
       }
     
     return(
-        <BusinessContext.Provider value={{businesses, getBusinesses, showBusiness}}>
+        <BusinessContext.Provider value={{businesses, getBusinesses, showBusiness, setShowBusiness}}>
             {props.children}
         </BusinessContext.Provider>
     )

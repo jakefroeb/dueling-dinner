@@ -1,9 +1,12 @@
 import { useContext, useEffect, useState } from "react"
+import { DuelContext } from "../duels/DuelProvider"
 import { UserContext } from "./UserProvider"
 
 export const UserSelect = ({setDuelStarted}) => {
     const {users, getUsers} = useContext(UserContext)
     const [buttonDisabled, setButtonDisabled] = useState(true)
+    const {initializeDuel, duelId} = useContext(DuelContext)
+    const [receiverId, setReceiverId] = useState(0)
 
     useEffect(()=>{
         getUsers()
@@ -12,12 +15,14 @@ export const UserSelect = ({setDuelStarted}) => {
     
     const startDuel = (e) => {
         e.preventDefault()
+        initializeDuel(receiverId)
         setDuelStarted(true)
     }
     const handleSelectChange = (event) => {
         if(event.target.value === "0" || event.target.value === sessionStorage.getItem("app_user_id")){
             setButtonDisabled(true)
         }else{
+            setReceiverId(parseInt(event.target.value))
             setButtonDisabled(false)
         }
     }
