@@ -30,15 +30,21 @@ export const DuelProvider = (props) => {
                 finalDecisionId: ""
             })
         }).then(res => res.json())
-        .then(res => setDuelId(res.id))
+        .then(res=> setDuelId(res.id))
     }
     const getPendingDuels = () => {
         return fetch(`http://localhost:8088/duels?receiverId=${sessionStorage.getItem(userStorageKey)}&_expand=user`)
         .then(res => res.json())
         .then(setPendingDuels)
     }
+    const deleteDuel = (duelId) => {
+        return fetch(`http://localhost:8088/duels/${duelId}`,{
+            method:"DELETE"
+        })
+        .then(()=> fetch(`http://localhost:8088/duelMatches?duelId=${duelId}`))
+    }
     return(
-        <DuelContext.Provider value={{initializeDuel, duelId, saveDuelMatches, getPendingDuels, pendingDuels}}>
+        <DuelContext.Provider value={{initializeDuel, duelId, saveDuelMatches, getPendingDuels, pendingDuels, deleteDuel}}>
             {props.children}
         </DuelContext.Provider>
     )
