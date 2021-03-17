@@ -1,15 +1,23 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
+import { userStorageKey } from "../auth/authSettings"
+import { DuelContext } from "../duels/DuelProvider"
 
-export const Business = ({businesses}) => {
-    // distance
+export const Business = ({businesses, duelId}) => {
     const [index, setIndex] = useState(0)
+    const {saveDuelMatches} = useContext(DuelContext)
     const handleYes = (e) =>{
         e.preventDefault()
+        saveDuelMatches({
+            duelId : duelId,
+            userId : sessionStorage.getItem(userStorageKey),
+            restaurantId : e.target.value
+        })
         let tempIndex = index + 1
         setIndex(tempIndex)
     }
     const handleNo = (e) => {
-
+        let tempIndex = index + 1
+        setIndex(tempIndex)
     }
     return(
         <>
@@ -20,8 +28,8 @@ export const Business = ({businesses}) => {
             <p>{businesses[index].rating}</p>
             <p>{businesses[index].review_count}</p>
             <p>{businesses[index].distance}</p>
-            <button onClick={handleYes}>Yes</button>
-            <button>No</button>
+            <button onClick={handleYes} value={businesses[index].id}>Yes</button>
+            <button onClick={handleNo}>No</button>
         </>
     )
 
