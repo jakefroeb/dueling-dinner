@@ -5,6 +5,7 @@ export const DuelContext = createContext()
 
 export const DuelProvider = (props) => {
     const [duelId, setDuelId] = useState(0)
+    const [pendingDuels, setPendingDuels] = useState([])
     const saveDuelMatches = (duelMatches) =>{
         return fetch("http://localhost:8088/duelMatches",{
             method:"POST",
@@ -15,7 +16,6 @@ export const DuelProvider = (props) => {
         })
     }
     const initializeDuel = (receiverId) => {
-        debugger
         return fetch("http://localhost:8088/duels",{
             method:"POST",
             headers:{
@@ -31,10 +31,14 @@ export const DuelProvider = (props) => {
             })
         }).then(res => res.json())
         .then(res => setDuelId(res.id))
-
+    }
+    const getPendingDuels = () => {
+        return fetch(`http://localhost:8088/duels?receiverId=${sessionStorage.getItem(userStorageKey)}&_expand=user`)
+        .then(res => res.json())
+        .then(setPendingDuels)
     }
     return(
-        <DuelContext.Provider value={{initializeDuel, duelId, saveDuelMatches}}>
+        <DuelContext.Provider value={{initializeDuel, duelId, saveDuelMatches, getPendingDuels, pendingDuels}}>
             {props.children}
         </DuelContext.Provider>
     )

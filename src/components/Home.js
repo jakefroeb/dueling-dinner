@@ -2,6 +2,7 @@ import { useState } from "react"
 import { BusinessList } from "./businesses/BusinessList"
 import { BusinessProvider } from "./businesses/BusinessProvider"
 import { DuelProvider } from "./duels/DuelProvider"
+import { PendingDuelList } from "./duels/PendingDuelList"
 import { UserProvider } from "./users/UserProvider"
 import { UserSelect } from "./users/UserSelect"
 
@@ -9,16 +10,22 @@ export const Home = () => {
     const [duelStarted, setDuelStarted] = useState(false)
 
     return <div className="contentContainer">
-        <div className="pendingDuels"></div>
             {!duelStarted ? 
+            <>
+        <div className="pendingDuels">
+
+        </div>
+            
         <div className="startDuel">
-            <h3>Start a duel</h3>
             <UserProvider>
                 <DuelProvider>
+                    <h3>Start a duel</h3>
                     <UserSelect setDuelStarted = {setDuelStarted}/>
+                    <PendingDuelList/>
                 </DuelProvider>
             </UserProvider> 
         </div>
+        </>
             : <></>}
             {duelStarted ?
                 <div className="duelInProgress">
