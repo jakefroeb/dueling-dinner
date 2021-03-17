@@ -35,7 +35,8 @@ export const DuelProvider = (props) => {
             console.log(res.id)
             setDuelId(id)
             console.log(duelId)
-    })
+        })
+    }
     const getPendingDuels = () => {
         return fetch(`http://localhost:8088/duels?receiverId=${sessionStorage.getItem(userStorageKey)}&_expand=user`)
         .then(res => res.json())
