@@ -5,7 +5,7 @@ import { UserContext } from "./UserProvider"
 export const UserSelect = ({setDuelStarted}) => {
     const {users, getUsers} = useContext(UserContext)
     const [buttonDisabled, setButtonDisabled] = useState(true)
-    const {initializeDuel, duelId} = useContext(DuelContext)
+    const {initializeDuel} = useContext(DuelContext)
     const [receiverId, setReceiverId] = useState(0)
 
     useEffect(()=>{

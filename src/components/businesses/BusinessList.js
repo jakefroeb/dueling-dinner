@@ -5,7 +5,6 @@ import { Business } from "./Business"
 import { BusinessContext } from "./BusinessProvider"
 
 export const BusinessList = ({setDuelStarted}) =>{
-    const { duelId} = useContext(DuelContext)
     const {businesses, getBusinesses, showBusiness} = useContext(BusinessContext)
     const success = (pos) => {
         getBusinesses(pos.coords.latitude,pos.coords.longitude)
@@ -23,7 +22,7 @@ export const BusinessList = ({setDuelStarted}) =>{
                 {showBusiness ? <Timer setDuelStarted={setDuelStarted}/> : <></>}
             </div>
             <div className="businessCard"> 
-                {showBusiness ? <Business businesses={businesses} duelId={duelId}/>:<></>}
+                {showBusiness ? <Business businesses={businesses}/>:<></>}
             </div>
         </>
     )
