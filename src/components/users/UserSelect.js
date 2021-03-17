@@ -15,8 +15,7 @@ export const UserSelect = ({setDuelStarted}) => {
     
     const startDuel = (e) => {
         e.preventDefault()
-        initializeDuel(receiverId)
-        setDuelStarted(true)
+        initializeDuel(receiverId).then(setDuelStarted(true))
     }
     const handleSelectChange = (event) => {
         if(event.target.value === "0" || event.target.value === sessionStorage.getItem("app_user_id")){
