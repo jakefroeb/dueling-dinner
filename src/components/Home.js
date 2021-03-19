@@ -20,7 +20,7 @@ export const Home = () => {
                                     <UserSelect setDuelStarted = {setDuelStarted}/>                                   
                                 </div>
                                 <div className="pendingDuels">
-                                    <PendingDuelList/>    
+                                    <PendingDuelList setDuelStarted = {setDuelStarted}/>    
                                 </div>    
                             </>
                         : <></>}

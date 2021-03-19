@@ -5,7 +5,7 @@ import { UserContext } from "./UserProvider"
 export const UserSelect = ({setDuelStarted}) => {
     const {users, getUsers} = useContext(UserContext)
     const [buttonDisabled, setButtonDisabled] = useState(true)
-    const {initializeDuel} = useContext(DuelContext)
+    const {initializeDuel, setReceiver} = useContext(DuelContext)
     const [receiverId, setReceiverId] = useState(0)
 
     useEffect(()=>{
@@ -15,7 +15,9 @@ export const UserSelect = ({setDuelStarted}) => {
     
     const startDuel = (e) => {
         e.preventDefault()
-        initializeDuel(receiverId).then(setDuelStarted(true))
+        initializeDuel(receiverId)
+        setReceiver(false)
+        setDuelStarted(true)
     }
     const handleSelectChange = (event) => {
         if(event.target.value === "0" || event.target.value === sessionStorage.getItem("app_user_id")){
