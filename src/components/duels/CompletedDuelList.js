@@ -5,11 +5,10 @@ import { DuelContext } from "./DuelProvider"
 import { Match } from "./Match"
 
 export const CompletedDuelList = () => {
-    const {getCompletedDuels, completedDuels, getMatches} = useContext(DuelContext)
-    const {getBusinessById} = useContext(BusinessContext)
+    const {getCompletedReceivedDuels, completedDuels, getMatches, deleteDuel} = useContext(DuelContext)
     const [finalMatches, setFinalMatches] = useState([])
     useEffect(()=>{
-        getCompletedDuels()
+        getCompletedReceivedDuels()
     },[])
     let tempFinalMatches = []
     const showMatches = (e) =>{
@@ -23,34 +22,41 @@ export const CompletedDuelList = () => {
             if(tempMatch){
                 tempFinalMatches.push(tempMatch)
             }})
+            if(!tempFinalMatches.length){
+                deleteDuel(parseInt(e.target.value))
+                .then(getCompletedReceivedDuels)
+                console.log("hey there  no matches")
+            }
             let finalMatchArray = tempFinalMatches.filter(finalMatch => finalMatch.userId === parseInt(sessionStorage.getItem(userStorageKey)))
             setFinalMatches(finalMatchArray)
-            console.log(finalMatchArray)
+            
         })
     }
 
     
     return (
         
-        <div className="completed duels">
-            {console.log(finalMatches)}
+        <>
         {completedDuels.length ?
-            completedDuels.map(completedDuel => <div className="pendingDuelCard" key={completedDuel.id}>
+            <div className="completed duels">
+            <h3>CompletedDuels</h3>
+            {completedDuels.map(completedDuel => <div className="completedDuelCard" key={completedDuel.id}>
                 <p key={completedDuel.user.name}>from : {completedDuel.user.name}</p>
                 <p key={completedDuel.timeStamp}>sent : {new Date(completedDuel.timeStamp).toLocaleString()}</p>
                 <button key={completedDuel.id} value={completedDuel.id} onClick={showMatches}>view matches</button>
-                {finalMatches? <div className="matches">
+                {/* This needs to be a popup modal or quote */}
+                {finalMatches? 
+                <div className="matches">
                     {finalMatches.map(finalMatch => {
                         return <Match key={finalMatch.id} match={finalMatch}/>
-                        }  
-                        )
-                        }
-                </div>:<></>}
-            </div>)
-
-        : <p>No Completed Duels</p>}
-        
+                    })}
+                </div>
+                :<></>}
+            </div>)}
         </div>
+        : <p>No Completed Duels</p>}
+                </>
+        
 
         
     )
