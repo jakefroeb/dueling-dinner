@@ -18,7 +18,7 @@ export const Business = () => {
         console.log(duelId)
         saveDuelMatches({
             duelId : duelId,
-            userId : sessionStorage.getItem(userStorageKey),
+            userId : parseInt(sessionStorage.getItem(userStorageKey)),
             restaurantId : e.target.value
         })
         let tempIndex = index + 1
