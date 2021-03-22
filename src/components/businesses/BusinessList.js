@@ -5,9 +5,8 @@ import { Business } from "./Business"
 import { BusinessContext } from "./BusinessProvider"
 
 export const BusinessList = ({setDuelStarted}) =>{
-    const {businesses, getBusinesses, showBusiness, getBusinessById, setMatchingBusinesses, matchingBusinesses, setBusinesses} = useContext(BusinessContext)
+    const { getBusinesses, showBusiness, getBusinessById, setMatchingBusinesses, matchingBusinesses, setBusinesses} = useContext(BusinessContext)
     const {receiver, duelId, getMatches} = useContext(DuelContext)
-    let promises
     const success = (pos) => {
         getBusinesses(pos.coords.latitude,pos.coords.longitude)
     }
@@ -27,6 +26,8 @@ export const BusinessList = ({setDuelStarted}) =>{
                 })
             })
             .then(window.navigator.geolocation.getCurrentPosition(success, error))
+        }else{
+            window.navigator.geolocation.getCurrentPosition(success, error)
         }
     },[])
 

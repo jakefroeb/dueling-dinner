@@ -7,6 +7,7 @@ export const DuelProvider = (props) => {
     const [duelId, setDuelId] = useState(0)
     const [pendingDuels, setPendingDuels] = useState([])
     const [receiver, setReceiver] = useState(false)
+    const [completedDuels, setCompletedDuels] = useState([])
     const saveDuelMatches = (duelMatches) =>{
         return fetch("http://localhost:8088/duelMatches",{
             method:"POST",
@@ -38,6 +39,11 @@ export const DuelProvider = (props) => {
         .then(res => res.json())
         .then(setPendingDuels)
     }
+    const getCompletedDuels = () => {
+        return fetch(`http://localhost:8088/duels?receiverId=${sessionStorage.getItem(userStorageKey)}&completed=true&_expand=user`)
+        .then(res => res.json())
+        .then(setCompletedDuels)
+    }
     const deleteDuel = (duelId) => {
         return fetch(`http://localhost:8088/duels/${duelId}`,{
             method:"DELETE"
@@ -56,12 +62,12 @@ export const DuelProvider = (props) => {
         })
         .then(setReceiver(true))
     }
-    const getMatches = () => {
+    const getMatches = (duelId) => {
         return fetch(`http://localhost:8088/duelMatches?duelId=${duelId}`)
         .then(res => res.json())
     }
     return(
-        <DuelContext.Provider value={{initializeDuel, duelId, saveDuelMatches, getPendingDuels, pendingDuels, deleteDuel, setDuelId, completeDuel, setReceiver, receiver, getMatches}}>
+        <DuelContext.Provider value={{initializeDuel, duelId, saveDuelMatches, getPendingDuels, pendingDuels, deleteDuel, setDuelId, completeDuel, setReceiver, receiver, getMatches, completedDuels, getCompletedDuels}}>
             {props.children}
         </DuelContext.Provider>
     )
