@@ -75,8 +75,20 @@ export const DuelProvider = (props) => {
         return fetch(`http://localhost:8088/duelMatches?duelId=${duelId}`)
         .then(res => res.json())
     }
+    const finishDuel = (businessId, businessName, duelId) => {
+        return fetch(`http://localhost:8088/duels/${duelId}`,{
+            method:"PATCH",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body : JSON.stringify({
+                finalDecision: businessName,
+                finalDecisionId: businessId
+            })
+        }).then(getCompletedReceivedDuels)
+    }
     return(
-        <DuelContext.Provider value={{initializeDuel, duelId, saveDuelMatches, getPendingDuels, pendingDuels, deleteDuel, setDuelId, completeDuel, setReceiver, receiver, getMatches, completedDuels, getCompletedReceivedDuels}}>
+        <DuelContext.Provider value={{initializeDuel, duelId, saveDuelMatches, getPendingDuels, pendingDuels, deleteDuel, setDuelId, completeDuel, setReceiver, receiver, getMatches, completedDuels, getCompletedReceivedDuels, finishDuel}}>
             {props.children}
         </DuelContext.Provider>
     )

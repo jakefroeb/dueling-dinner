@@ -7,6 +7,7 @@ import { Match } from "./Match"
 export const CompletedDuelList = () => {
     const {getCompletedReceivedDuels, completedDuels, getMatches, deleteDuel} = useContext(DuelContext)
     const [finalMatches, setFinalMatches] = useState([])
+    const [showMatch, setShowMatch] = useState(false)
     useEffect(()=>{
         getCompletedReceivedDuels()
     },[])
@@ -29,6 +30,7 @@ export const CompletedDuelList = () => {
             }
             let finalMatchArray = tempFinalMatches.filter(finalMatch => finalMatch.userId === parseInt(sessionStorage.getItem(userStorageKey)))
             setFinalMatches(finalMatchArray)
+            setShowMatch(true)
             
         })
     }
@@ -43,12 +45,13 @@ export const CompletedDuelList = () => {
             {completedDuels.map(completedDuel => <div className="completedDuelCard" key={completedDuel.id}>
                 <p key={completedDuel.user.name}>from : {completedDuel.user.name}</p>
                 <p key={completedDuel.timeStamp}>sent : {new Date(completedDuel.timeStamp).toLocaleString()}</p>
+                <p>Final Desicion : {completedDuel.finalDecision}</p>
                 <button key={completedDuel.id} value={completedDuel.id} onClick={showMatches}>view matches</button>
                 {/* This needs to be a popup modal or quote */}
-                {finalMatches? 
+                {finalMatches && showMatch? 
                 <div className="matches">
                     {finalMatches.map(finalMatch => {
-                        return <Match key={finalMatch.id} match={finalMatch}/>
+                        return <Match key={finalMatch.id} match={finalMatch} userId={completedDuel.user.id} duelId={completedDuel.id} setShowMatch={setShowMatch}/>
                     })}
                 </div>
                 :<></>}
