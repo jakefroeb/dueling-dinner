@@ -19,6 +19,7 @@ export const BusinessProvider = (props) => {
               setShowBusiness(true)
           })
       }
+      //showBusiness is a variable that waits for the fetch call to come back because the call takes a while through a proxy
     const getBusinessById = (id) => {
         return fetch(`https://powerful-plateau-15272.herokuapp.com/https://api.yelp.com/v3/businesses/${id}`,{
             headers : {

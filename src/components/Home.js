@@ -14,22 +14,27 @@ export const Home = () => {
             <UserProvider>
                 <BusinessProvider>
                     <DuelProvider>
+                        {/* duel started state variable that controls what is displayed*/}
                         {!duelStarted ? 
                             <>
                                 <div className="startDuel">
                                     <h3>Start a duel</h3>
-                                    <UserSelect setDuelStarted = {setDuelStarted}/>                                   
+                                    <UserSelect setDuelStarted = {setDuelStarted}/>   
+                                    {/* user select is responsible for starting a new duel */}
                                 </div>
                                 <div className="pendingDuels">
                                     <PendingDuelList setDuelStarted = {setDuelStarted}/> 
                                     <CompletedDuelList/>   
                                 </div>    
+                                {/* Pending duel List for duels that have been received from other users
+                                Completed Duel List for completed duels */}
                             </>
                         : <></>}
                         {duelStarted ?
                             <div className="duelInProgress">
                                 <h3>Duel in Progress</h3> 
                                 <BusinessList setDuelStarted={setDuelStarted}/>  
+                                {/* Business List responsible for when a duel starts */}
                             </div> 
                         : <></>}
                         <div className="completedDuels"></div>

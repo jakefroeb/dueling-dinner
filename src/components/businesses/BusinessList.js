@@ -13,9 +13,10 @@ export const BusinessList = ({setDuelStarted}) =>{
     const error = () => {
         alert("couldnt get coords, please allow this site to access your location")
     }
+
+
     useEffect(()=>{
         if(receiver){
-            console.log(duelId)
             getMatches(duelId)
             .then(matches => {
                 return matches.map(match => getBusinessById(match.restaurantId))
@@ -30,10 +31,12 @@ export const BusinessList = ({setDuelStarted}) =>{
             window.navigator.geolocation.getCurrentPosition(success, error)
         }
     },[])
-
+//Use effect if you are the receiver then the app will grab the matches from the initiator to present those options first
+// then grabs the lat lon from your current location on success will get Businesses
 
     return(
         <>
+        {/* showBusiness is a variable i use to not start the timer or display business until the data has been retrieved from fetch call as it takes a while */}
             <div className="timer">
                 {showBusiness ? <Timer setDuelStarted={setDuelStarted}/> : <></>}
             </div>

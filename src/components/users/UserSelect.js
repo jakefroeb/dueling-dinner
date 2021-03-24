@@ -19,6 +19,7 @@ export const UserSelect = ({setDuelStarted}) => {
         setReceiver(false)
         setDuelStarted(true)
     }
+    // Initializes Duel, Sets receiver variable to false as you are the initiator and duelStarted variable to true which will show BusinessList
     const handleSelectChange = (event) => {
         if(event.target.value === "0" || event.target.value === sessionStorage.getItem("app_user_id")){
             setButtonDisabled(true)
@@ -27,6 +28,8 @@ export const UserSelect = ({setDuelStarted}) => {
             setButtonDisabled(false)
         }
     }
+    // handles the button being disabled or not based on the select option cannot choose yourself or no one
+    // sets receiverId to your selected duel recipiant.. maybe doesnt need to be a state variable
 
     return(
         <>
