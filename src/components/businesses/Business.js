@@ -13,9 +13,10 @@ export const Business = () => {
         const duplicate = businesses.find(b => b.id === business.id)
         allBusinesses.splice(allBusinesses.indexOf(duplicate),1)
     });
+    //this code will take the matches and combine them with the businesses from the lat lon call
+    //then it removes duplicates
     const handleYes = (e) =>{
         e.preventDefault()
-        console.log(duelId)
         saveDuelMatches({
             duelId : duelId,
             userId : parseInt(sessionStorage.getItem(userStorageKey)),
@@ -24,6 +25,8 @@ export const Business = () => {
         let tempIndex = index + 1
         setIndex(tempIndex)
     }
+    //when a user hits yes it will save a duel match and then display the next business in the array
+    
     const handleNo = (e) => {
         let tempIndex = index + 1
         setIndex(tempIndex)

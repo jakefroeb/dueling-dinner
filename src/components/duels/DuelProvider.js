@@ -39,7 +39,7 @@ export const DuelProvider = (props) => {
         .then(res => res.json())
         .then(setPendingDuels)
     }
-    const getCompletedReceivedDuels = () => {
+    const getCompletedDuels = () => {
         let tempCompletedDuels
         return fetch(`http://localhost:8088/duels?receiverId=${sessionStorage.getItem(userStorageKey)}&completed=true&_expand=user`)
         .then(res => res.json())
@@ -85,10 +85,10 @@ export const DuelProvider = (props) => {
                 finalDecision: businessName,
                 finalDecisionId: businessId
             })
-        }).then(getCompletedReceivedDuels)
+        }).then(getCompletedDuels)
     }
     return(
-        <DuelContext.Provider value={{initializeDuel, duelId, saveDuelMatches, getPendingDuels, pendingDuels, deleteDuel, setDuelId, completeDuel, setReceiver, receiver, getMatches, completedDuels, getCompletedReceivedDuels, finishDuel}}>
+        <DuelContext.Provider value={{initializeDuel, duelId, saveDuelMatches, getPendingDuels, pendingDuels, deleteDuel, setDuelId, completeDuel, setReceiver, receiver, getMatches, completedDuels, getCompletedDuels, finishDuel}}>
             {props.children}
         </DuelContext.Provider>
     )

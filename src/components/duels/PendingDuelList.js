@@ -12,16 +12,20 @@ export const PendingDuelList = ({setDuelStarted}) => {
         deleteDuel(parseInt(e.target.value))
         .then(getPendingDuels)
     }
+    //rejecting duel will delete duel
     const acceptDuel = (e) => {
         e.preventDefault()
         setDuelId(parseInt(e.target.value))
         completeDuel(e.target.value)
         setDuelStarted(true)
     }
+    //accept duel will start a duel with setting duel Id which will need to be accessed for saving duelMatches
+    //complete duel will patch the duel to change completed to true
 
     return(
         
         <div className="pending duels">
+            {/* ternary protecting code from showing error for not having data in it */}
         {pendingDuels.length ?
             pendingDuels.map(pendingDuel => <div className="pendingDuelCard" key={pendingDuel.id}>
                 <p key={pendingDuel.user.name}>from : {pendingDuel.user.name}</p>
