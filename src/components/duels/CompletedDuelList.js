@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react"
+import { Button, Card, ListGroup, Modal } from "react-bootstrap"
 import { userStorageKey } from "../auth/authSettings"
 import { DuelContext } from "./DuelProvider"
 import { Match } from "./Match"
@@ -39,7 +40,7 @@ export const CompletedDuelList = () => {
     // clickId is the id of the duel selected to show the matches
     // then find the matches that match restaurant ids but not matching itself
     //
-
+    const handleClose = () => setShowMatch(false)
     
     return (
         
@@ -47,26 +48,40 @@ export const CompletedDuelList = () => {
         {completedDuels.length ?
             <div className="completed duels">
             <h3>CompletedDuels</h3>
-            {completedDuels.map(completedDuel => <div className="completedDuelCard" key={completedDuel.id}>
-                <p key={completedDuel.user.name}>from : {completedDuel.user.name}</p>
-                <p key={completedDuel.timeStamp}>sent : {new Date(completedDuel.timeStamp).toLocaleString()}</p>
-                <p>Final Desicion : {completedDuel.finalDecision}</p>
-                <button key={completedDuel.id} value={completedDuel.id} onClick={showMatches}>view matches</button>
-                {/* This needs to be a popup modal or quote 
-                ternary checking for the matches in eatch duel*/}
-                {finalMatches && showMatch && completedDuel.id === clickId? 
-                <div className="matches">
-                    {finalMatches.map(finalMatch => {
-                        return <Match key={finalMatch.id} match={finalMatch} userId={completedDuel.user.id} duelId={completedDuel.id} setShowMatch={setShowMatch}/>
-                    })}
-                </div>
-                :<></>}
-            </div>)}
+            {completedDuels.map(completedDuel => 
+                <Card style={{ width: '18rem' }}>
+                <Card.Body>
+                    {completedDuel.userId === parseInt(sessionStorage.getItem(userStorageKey)) ? 
+                    <Card.Title>My Duel</Card.Title>
+                    : <Card.Title>From : {completedDuel.user.name}</Card.Title>
+                    }
+                    <ListGroup variant="flush">
+                        <ListGroup.Item>sent : {new Date(completedDuel.timeStamp).toLocaleString()}</ListGroup.Item>
+                        <ListGroup.Item>Final Desicion : {completedDuel.finalDecision}</ListGroup.Item>
+                    </ListGroup>
+                        <Modal show={finalMatches && showMatch && completedDuel.id === clickId} onHide={handleClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Matches</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                {finalMatches.map(finalMatch => {
+                                    return <Match key={finalMatch.id} match={finalMatch} userId={completedDuel.user.id} duelId={completedDuel.id} setShowMatch={setShowMatch}/>
+                                })}
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={handleClose}>
+                                    Close
+                                </Button>
+                            </Modal.Footer>
+                            </Modal>
+                    <Button variant="primary" value={completedDuel.id} onClick={showMatches}>view matches</Button>
+                  </Card.Body>
+                  </Card>
+           )}
         </div>
-        : <p>No Completed Duels</p>}
+        : <p>No Completed Duels</p>
+                }
                 </>
-        
-
         
     )
 }

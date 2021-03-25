@@ -1,4 +1,6 @@
 import { useContext, useEffect, useState } from "react"
+import { Button, Dropdown } from "react-bootstrap"
+import { userStorageKey } from "../auth/authSettings"
 import { DuelContext } from "../duels/DuelProvider"
 import { UserContext } from "./UserProvider"
 
@@ -7,6 +9,7 @@ export const UserSelect = ({setDuelStarted}) => {
     const [buttonDisabled, setButtonDisabled] = useState(true)
     const {initializeDuel, setReceiver} = useContext(DuelContext)
     const [receiverId, setReceiverId] = useState(0)
+    const [userName, setUserName] = useState("")
 
     useEffect(()=>{
         getUsers()
@@ -20,11 +23,12 @@ export const UserSelect = ({setDuelStarted}) => {
         setDuelStarted(true)
     }
     // Initializes Duel, Sets receiver variable to false as you are the initiator and duelStarted variable to true which will show BusinessList
-    const handleSelectChange = (event) => {
-        if(event.target.value === "0" || event.target.value === sessionStorage.getItem("app_user_id")){
+    const handleSelectChange = (eventKey, event) => {
+        if(eventKey.split(",")[0] === sessionStorage.getItem(userStorageKey)){
             setButtonDisabled(true)
         }else{
-            setReceiverId(parseInt(event.target.value))
+            setReceiverId(parseInt(eventKey.split(",")[0]))
+            setUserName(eventKey.split(",")[1])
             setButtonDisabled(false)
         }
     }
@@ -33,11 +37,15 @@ export const UserSelect = ({setDuelStarted}) => {
 
     return(
         <>
-            <select className="userDropDown" id="userSelect" onChange={handleSelectChange}>
-                <option key="0" value="0">Choose another User...</option>
-                {users?.map(user => <option key={user.id} value={user.id}>{user.name}</option>)}
-            </select>
-            <button onClick={startDuel} disabled={buttonDisabled}>Start Duel</button>
+        <Dropdown>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                {buttonDisabled? "Choose a user" : userName}
+            </Dropdown.Toggle>
+        <Dropdown.Menu>
+        {users?.map(user => <Dropdown.Item key={user.id} eventKey={[user.id, user.name]} onSelect={handleSelectChange} disabled={user.id === parseInt(sessionStorage.getItem(userStorageKey))}>{user.name}</Dropdown.Item>)}
+        </Dropdown.Menu>
+        </Dropdown>
+        <Button onClick={startDuel} disabled={buttonDisabled}>Start Duel</Button>
         </>
     )
 }
