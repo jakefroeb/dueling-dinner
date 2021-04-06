@@ -1,0 +1,10 @@
+.duelContainer{
+    display: flex;
+    justify-content: space-between;
+}
+.duelInProgress{
+    align-items: center;
+}
+.contentContainer{
+    align-items: center;
+}

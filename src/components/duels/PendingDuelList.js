@@ -1,4 +1,5 @@
 import { useContext, useEffect } from "react"
+import { Button, Card, ListGroup } from "react-bootstrap"
 import { DuelContext } from "./DuelProvider"
 
 export const PendingDuelList = ({setDuelStarted}) => {
@@ -25,14 +26,22 @@ export const PendingDuelList = ({setDuelStarted}) => {
     return(
         
         <div className="pending duels">
+            <h3>Pending Duels</h3>
             {/* ternary protecting code from showing error for not having data in it */}
         {pendingDuels.length ?
-            pendingDuels.map(pendingDuel => <div className="pendingDuelCard" key={pendingDuel.id}>
-                <p key={pendingDuel.user.name}>from : {pendingDuel.user.name}</p>
-                <p key={pendingDuel.timeStamp}>sent : {new Date(pendingDuel.timeStamp).toLocaleString()}</p>
-                <button key={pendingDuel.id+2} className="acceptButton" value={pendingDuel.id} onClick={acceptDuel}>Accept</button>
-                <button key={pendingDuel.id+1} className="declineButton" value={pendingDuel.id} onClick={rejectDuel}>Decline</button>
-            </div>)
+            pendingDuels.map(pendingDuel => 
+                <Card style={{ width: '20rem' }}>
+                <Card.Body>
+                    <Card.Title>From : {pendingDuel.user.name}</Card.Title>
+                    
+                    <ListGroup variant="flush">
+                        <ListGroup.Item>sent : {new Date(pendingDuel.timeStamp).toLocaleString()}</ListGroup.Item>
+                    </ListGroup>
+                    <Button variant="success" value={pendingDuel.id} onClick={acceptDuel}>Accept</Button>
+                    <Button variant="danger" value={pendingDuel.id} onClick={rejectDuel}>Decline</Button>
+                    </Card.Body>
+                    </Card>
+            )
 
         : <p>No Pending Duels</p>}
         

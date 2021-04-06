@@ -4,12 +4,13 @@ import { Login } from "./components/auth/Login"
 import { Register } from "./components/auth/Register"
 import { userStorageKey } from "./components/auth/authSettings"
 import { Home } from './components/Home';
+import './DuelingDinner.css'
 
 function App() {
   return (
     <div className="duelingDinner">
       <header className="duelingDinner-header">
-        Dueling Dinner
+        <h1>Dueling Dinner</h1>
       </header>
       <Route render={() => {
         if (sessionStorage.getItem(userStorageKey)) {
