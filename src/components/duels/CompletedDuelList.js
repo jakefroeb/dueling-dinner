@@ -45,9 +45,9 @@ export const CompletedDuelList = () => {
     return (
         
         <>
+            <h3>CompletedDuels</h3>
         {completedDuels.length ?
             <div className="completed duels">
-            <h3>CompletedDuels</h3>
             {completedDuels.map(completedDuel => 
                 <Card style={{ width: '18rem' }}>
                 <Card.Body>

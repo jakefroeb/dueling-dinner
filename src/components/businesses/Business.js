@@ -1,7 +1,9 @@
-import { useState, useContext, useEffect } from "react"
+import { useState, useContext } from "react"
+import { Button, Card, CardImg, ListGroup } from "react-bootstrap"
 import { userStorageKey } from "../auth/authSettings"
 import { DuelContext } from "../duels/DuelProvider"
 import { BusinessContext } from "./BusinessProvider"
+import "./Business.css"
 
 export const Business = () => {
     const [index, setIndex] = useState(0)
@@ -33,15 +35,20 @@ export const Business = () => {
     }
     return(
         <>
-            <h2>{allBusinesses[index].name}</h2>
-            <img src={allBusinesses[index].image_url} alt="img"></img>
-            {allBusinesses[index].categories.map(category => <p key={category.title}>{category.title}</p>)}
-            <p>{allBusinesses[index].price}</p>
-            <p>{allBusinesses[index].rating}</p>
-            <p>{allBusinesses[index].review_count}</p>
-            <p>{allBusinesses[index].distance}</p>
-            <button onClick={handleYes} value={allBusinesses[index].id}>Yes</button>
-            <button onClick={handleNo}>No</button>
+            <Card classname="businessCard">
+                <CardImg classname="businessImage" variant="top" src={allBusinesses[index].image_url} />
+                <Card.Body>
+                <Card.Title>{allBusinesses[index].name}</Card.Title>
+                <ListGroup variant="flush">
+                        <ListGroup.Item>{allBusinesses[index].price}</ListGroup.Item>
+                        <ListGroup.Item>{allBusinesses[index].rating}</ListGroup.Item>
+                        <ListGroup.Item>{allBusinesses[index].review_count}</ListGroup.Item>
+                        <ListGroup.Item>{allBusinesses[index].distance}</ListGroup.Item>
+                    </ListGroup>
+                </Card.Body>
+                <Button variant="success" value={allBusinesses[index].id} onClick={handleYes}>Yes</Button>
+                <Button variant="danger" onClick={handleNo}>No</Button>
+            </Card>
         </>
     )
 

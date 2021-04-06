@@ -1,11 +1,12 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
+import { Spinner } from "react-bootstrap"
 import { DuelContext } from "../duels/DuelProvider"
 import { Timer } from "../duels/Timer"
 import { Business } from "./Business"
 import { BusinessContext } from "./BusinessProvider"
 
 export const BusinessList = ({setDuelStarted}) =>{
-    const { getBusinesses, showBusiness, getBusinessById, setMatchingBusinesses, matchingBusinesses, setBusinesses} = useContext(BusinessContext)
+    const { getBusinesses, showBusiness, getBusinessById, setMatchingBusinesses} = useContext(BusinessContext)
     const {receiver, duelId, getMatches} = useContext(DuelContext)
     const success = (pos) => {
         getBusinesses(pos.coords.latitude,pos.coords.longitude)
@@ -38,7 +39,7 @@ export const BusinessList = ({setDuelStarted}) =>{
         <>
         {/* showBusiness is a variable i use to not start the timer or display business until the data has been retrieved from fetch call as it takes a while */}
             <div className="timer">
-                {showBusiness ? <Timer setDuelStarted={setDuelStarted}/> : <></>}
+                {showBusiness ? <Timer setDuelStarted={setDuelStarted}/> : <Spinner animation="border" variant="success" />}
             </div>
             <div className="businessCard"> 
                 {showBusiness ? <Business/>:<></>}
